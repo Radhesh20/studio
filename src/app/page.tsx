@@ -17,7 +17,7 @@ export default function Home() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
       <header className="py-16 sm:py-24 text-center">
         <h1 className="font-headline text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-foreground">
-          Rad's Vault
+          Radhesh "Ashen" Everwrite
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-lg text-muted-foreground">
           An aspiring author's collection of projects, thoughts, articles, and stories.

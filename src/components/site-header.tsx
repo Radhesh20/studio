@@ -62,7 +62,7 @@ export default function SiteHeader() {
                   <Feather className="h-6 w-6" />
               </div>
               <span className="font-headline text-xl font-bold hidden sm:inline-block">
-                Inkwell Musings
+                Radhesh "Ashen" Everwrite
               </span>
           </Link>
           
@@ -82,7 +82,7 @@ export default function SiteHeader() {
                   <div className="flex items-center justify-between border-b p-4">
                     <Link href="/" className="flex items-center gap-2" onClick={handleLinkClick}>
                       <Feather className="h-6 w-6 text-primary" />
-                      <span className="font-headline text-xl font-bold">Inkwell Musings</span>
+                      <span className="font-headline text-xl font-bold">Radhesh "Ashen" Everwrite</span>
                     </Link>
                     <SheetTrigger asChild>
                       <Button variant="ghost" size="icon">

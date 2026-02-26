@@ -12,7 +12,7 @@ export function SiteFooter() {
                 <Feather className="h-6 w-6" />
             </div>
             <span className="font-headline text-xl font-bold">
-              Inkwell Musings
+              Radhesh "Ashen" Everwrite
             </span>
           </div>
           <div className="flex gap-4">
@@ -34,7 +34,7 @@ export function SiteFooter() {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
-            <p>&copy; {new Date().getFullYear()} Inkwell Musings. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} Radhesh "Ashen" Everwrite. All rights reserved.</p>
             <p className="mt-2">A place for projects, thoughts, and stories by an aspiring author.</p>
         </div>
       </div>
