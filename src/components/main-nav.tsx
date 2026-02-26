@@ -2,18 +2,20 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Home, User, Tags, Newspaper, MessageSquareText, Projector, BookOpen, Feather } from 'lucide-react';
 import {
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-} from '@/components/ui/sidebar';
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Button } from '@/components/ui/button';
 import { getAllTags, type Tag } from '@/lib/data';
+import { cn } from '@/lib/utils';
+import { ChevronDown, Tags, Feather, Projector, MessageSquareText, Newspaper, BookOpen } from 'lucide-react';
 
 const navItems = [
-  { href: '/', label: 'Home', icon: Home },
-  { href: '/about', label: 'About', icon: User },
-  { href: '/tags', label: 'Tags', icon: Tags },
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
 ];
 
 const tagIcons: Record<Tag, React.ElementType> = {
@@ -23,47 +25,54 @@ const tagIcons: Record<Tag, React.ElementType> = {
     Stories: BookOpen,
 };
 
-export function MainNav() {
+export function MainNav({ className }: { className?: string }) {
   const pathname = usePathname();
   const tags = getAllTags();
 
   return (
-    <SidebarMenu>
+    <nav className={cn('hidden md:flex items-center space-x-1', className)}>
       {navItems.map((item) => (
-        <SidebarMenuItem key={item.href}>
-          <SidebarMenuButton
-            asChild
-            isActive={pathname === item.href}
-            tooltip={{ children: item.label }}
+        <Button key={item.href} variant="ghost" asChild>
+          <Link
+            href={item.href}
+            className={cn(
+              'text-sm font-medium transition-colors',
+              pathname === item.href
+                ? 'text-primary'
+                : 'text-muted-foreground hover:text-primary'
+            )}
           >
-            <Link href={item.href}>
-              <item.icon />
-              <span>{item.label}</span>
-            </Link>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+            {item.label}
+          </Link>
+        </Button>
       ))}
-      <div className="px-3 pt-4 pb-2 text-xs font-medium text-muted-foreground group-data-[collapsible=icon]:hidden">
-        Categories
-      </div>
-      {tags.map((tag) => {
-        const TagIcon = tagIcons[tag] || Feather;
-        const href = `/tags/${tag.toLowerCase()}`;
-        return (
-          <SidebarMenuItem key={tag}>
-            <SidebarMenuButton
-              asChild
-              isActive={pathname === href}
-              tooltip={{ children: tag }}
-            >
-              <Link href={href}>
-                <TagIcon />
-                <span>{tag}</span>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="text-sm font-medium text-muted-foreground hover:text-primary data-[state=open]:text-primary">
+            Categories
+            <ChevronDown className="relative top-[1px] ml-1 h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="start">
+          <DropdownMenuItem asChild>
+             <Link href="/tags" className="w-full">
+                <Tags className="mr-2 h-4 w-4" />
+                <span>All Tags</span>
               </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        );
-      })}
-    </SidebarMenu>
+          </DropdownMenuItem>
+          {tags.map((tag) => {
+            const TagIcon = tagIcons[tag] || Feather;
+            return (
+              <DropdownMenuItem key={tag} asChild>
+                <Link href={`/tags/${tag.toLowerCase()}`} className="w-full">
+                  <TagIcon className="mr-2 h-4 w-4" />
+                  <span>{tag}</span>
+                </Link>
+              </DropdownMenuItem>
+            );
+          })}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </nav>
   );
 }
