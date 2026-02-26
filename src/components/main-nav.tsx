@@ -31,15 +31,16 @@ export function MainNav() {
     <SidebarMenu>
       {navItems.map((item) => (
         <SidebarMenuItem key={item.href}>
-          <Link href={item.href} legacyBehavior passHref>
-            <SidebarMenuButton
-              isActive={pathname === item.href}
-              tooltip={{ children: item.label }}
-            >
+          <SidebarMenuButton
+            asChild
+            isActive={pathname === item.href}
+            tooltip={{ children: item.label }}
+          >
+            <Link href={item.href}>
               <item.icon />
               <span>{item.label}</span>
-            </SidebarMenuButton>
-          </Link>
+            </Link>
+          </SidebarMenuButton>
         </SidebarMenuItem>
       ))}
       <div className="px-3 pt-4 pb-2 text-xs font-medium text-muted-foreground group-data-[collapsible=icon]:hidden">
@@ -50,15 +51,16 @@ export function MainNav() {
         const href = `/tags/${tag.toLowerCase()}`;
         return (
           <SidebarMenuItem key={tag}>
-             <Link href={href} legacyBehavior passHref>
-              <SidebarMenuButton
-                isActive={pathname === href}
-                tooltip={{ children: tag }}
-              >
+            <SidebarMenuButton
+              asChild
+              isActive={pathname === href}
+              tooltip={{ children: tag }}
+            >
+              <Link href={href}>
                 <TagIcon />
                 <span>{tag}</span>
-              </SidebarMenuButton>
-            </Link>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         );
       })}

@@ -24,15 +24,13 @@ export default function TagsPage() {
       <main>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {tags.map((tag) => (
-            <Link href={`/tags/${tag.toLowerCase()}`} key={tag} legacyBehavior>
-              <a className="block">
+            <Link href={`/tags/${tag.toLowerCase()}`} key={tag} className="block">
                 <Card className="h-full transition-all duration-300 hover:shadow-lg hover:border-primary">
                   <CardHeader className="flex flex-row items-center justify-between">
                     <CardTitle className="font-headline text-2xl">{tag}</CardTitle>
                     <ArrowRight className="h-6 w-6 text-muted-foreground" />
                   </CardHeader>
                 </Card>
-              </a>
             </Link>
           ))}
         </div>
