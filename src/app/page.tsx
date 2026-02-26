@@ -1,9 +1,13 @@
 import { PostCard } from '@/components/post-card';
-import { getFeaturedPosts } from '@/lib/data';
+import { getFeaturedPosts, getPosts } from '@/lib/data';
 import { NewsletterSignup } from '@/components/newsletter-signup';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 export default function Home() {
-  const featuredPosts = getFeaturedPosts();
+  const featuredPosts = getFeaturedPosts().slice(0, 3);
+  const latestPosts = getPosts().slice(0, 6);
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,14 +21,35 @@ export default function Home() {
       </header>
 
       <main>
-        <section className="mb-24">
-          <h2 className="font-headline text-3xl font-bold mb-8 text-center sm:text-left">Featured Writings</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredPosts.map((post) => (
-              <PostCard key={post.id} post={post} />
-            ))}
-          </div>
-        </section>
+        {featuredPosts.length > 0 && (
+            <section className="mb-24">
+            <h2 className="font-headline text-3xl font-bold mb-8 text-center sm:text-left">Featured Writings</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {featuredPosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+                ))}
+            </div>
+            </section>
+        )}
+
+        {latestPosts.length > 0 && (
+          <section className="mb-24">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="font-headline text-3xl font-bold text-center sm:text-left">Latest Posts</h2>
+              <Button variant="ghost" asChild>
+                  <Link href="/blog" className="flex items-center gap-2 text-primary">
+                      View all posts
+                      <ArrowRight className="w-4 h-4" />
+                  </Link>
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {latestPosts.map((post) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="py-16 bg-muted/50 rounded-lg -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
           <NewsletterSignup />

@@ -32,8 +32,8 @@ export default function SiteHeader() {
   
   const navItems = [
     { href: '/', label: 'Home' },
+    { href: '/blog', label: 'Blog' },
     { href: '/about', label: 'About' },
-    { href: '/tags', label: 'All Tags' },
   ];
 
   const tagIcons: Record<Tag, React.ElementType> = {
@@ -106,6 +106,16 @@ export default function SiteHeader() {
                     ))}
                     <div className="border-t my-4"></div>
                     <h4 className="px-2 font-medium text-muted-foreground">Categories</h4>
+                    <Link
+                        href="/tags"
+                        className={cn(
+                            'flex items-center gap-3 p-2 rounded-md text-foreground hover:bg-accent hover:text-accent-foreground',
+                            pathname === '/tags' && 'bg-accent text-accent-foreground'
+                        )}
+                    >
+                        <Tags className="h-5 w-5" />
+                        <span className="text-base font-medium">All Tags</span>
+                    </Link>
                     {tags.map((tag) => {
                         const TagIcon = tagIcons[tag] || Feather;
                         const href = `/tags/${tag.toLowerCase()}`;

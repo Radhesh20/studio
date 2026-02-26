@@ -15,6 +15,7 @@ import { ChevronDown, Tags, Feather, Projector, MessageSquareText, Newspaper, Bo
 
 const navItems = [
   { href: '/', label: 'Home' },
+  { href: '/blog', label: 'Blog' },
   { href: '/about', label: 'About' },
 ];
 
