@@ -26,7 +26,7 @@ export default function Home() {
 
       <main>
         {featuredPosts.length > 0 && (
-            <section className="mb-24">
+            <section className="mb-24 py-16 bg-muted/50 rounded-lg -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8">
             <h2 className="font-headline text-3xl font-bold mb-8 text-center sm:text-left">Featured Writings</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {featuredPosts.map((post) => (
