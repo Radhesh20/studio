@@ -1,3 +1,40 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "post-image-1",
+      "description": "A person writing in a notebook at a sunlit desk.",
+      "imageUrl": "https://images.unsplash.com/photo-1589578641895-56f5e660549f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx3cml0aW5nJTIwZGVza3xlbnwwfHx8fDE3NzIwODExMjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "writing desk"
+    },
+    {
+      "id": "post-image-2",
+      "description": "An open book with a fantasy landscape emerging from its pages.",
+      "imageUrl": "https://images.unsplash.com/photo-1610659566574-830ed197451c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmYW50YXN5JTIwYm9va3xlbnwwfHx8fDE3NzIwODExMjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fantasy book"
+    },
+    {
+      "id": "post-image-3",
+      "description": "A blueprint of a complex project on a wooden table.",
+      "imageUrl": "https://images.unsplash.com/photo-1721244653721-bc681b2dfd27?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxwcm9qZWN0JTIwYmx1ZXByaW50fGVufDB8fHx8MTc3MjA4MTEyNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "project blueprint"
+    },
+    {
+      "id": "post-image-4",
+      "description": "A quiet library with shelves full of old books.",
+      "imageUrl": "https://images.unsplash.com/photo-1683178861337-ca70ef8c0db3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsaWJyYXJ5JTIwYm9va3N8ZW58MHx8fHwxNzcyMDgxMTI2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "library books"
+    },
+    {
+      "id": "post-image-5",
+      "description": "A person looking thoughtfully out of a window.",
+      "imageUrl": "https://images.unsplash.com/photo-1598015856626-7fe1f3a647f6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx0aG91Z2h0ZnVsJTIwcGVyc29ufGVufDB8fHx8MTc3MjA4MTEyNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "thoughtful person"
+    },
+    {
+      "id": "author-portrait",
+      "description": "A portrait of the author.",
+      "imageUrl": "https://images.unsplash.com/photo-1733231291539-a1b0305c210a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhdXRob3IlMjBwb3J0cmFpdHxlbnwwfHx8fDE3NzIwMjU0NDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "author portrait"
+    }
+  ]
 }
