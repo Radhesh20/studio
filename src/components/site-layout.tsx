@@ -37,11 +37,14 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <header className="flex items-center justify-start p-2 border-b md:hidden sticky top-0 bg-background/80 backdrop-blur-sm z-10">
-            <SidebarTrigger />
-            <Link href="/" className="ml-2 font-headline text-lg font-bold">
-                Inkwell Musings
-            </Link>
+        <header className="flex items-center justify-between p-2 border-b md:hidden sticky top-0 bg-background/80 backdrop-blur-sm z-10">
+            <div className="flex items-center">
+              <SidebarTrigger />
+              <Link href="/" className="ml-2 font-headline text-lg font-bold">
+                  Inkwell Musings
+              </Link>
+            </div>
+            <ThemeToggle />
         </header>
         <div className="flex-1 p-4 md:p-8 overflow-y-auto">
             {children}

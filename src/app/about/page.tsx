@@ -1,5 +1,8 @@
 import Image from 'next/image';
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Github, Linkedin, Twitter } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'About the Author',
@@ -29,6 +32,23 @@ export default function AboutPage() {
                 <p className="lead">
                 Hello, I'm an aspiring author with a passion for weaving tales, exploring new ideas, and building digital experiences. This blog, Inkwell Musings, is my personal canvas.
                 </p>
+                <div className="mt-6 flex justify-center md:justify-start gap-4">
+                    <Button variant="outline" size="icon" asChild>
+                        <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="Github">
+                            <Github className="h-5 w-5" />
+                        </Link>
+                    </Button>
+                    <Button variant="outline" size="icon" asChild>
+                        <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
+                            <Twitter className="h-5 w-5" />
+                        </Link>
+                    </Button>
+                    <Button variant="outline" size="icon" asChild>
+                        <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <Linkedin className="h-5 w-5" />
+                        </Link>
+                    </Button>
+                </div>
             </div>
         </div>
         
