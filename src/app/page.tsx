@@ -7,7 +7,11 @@ import { ArrowRight } from 'lucide-react';
 
 export default function Home() {
   const featuredPosts = getFeaturedPosts().slice(0, 3);
-  const latestPosts = getPosts().slice(0, 6);
+  const featuredPostIds = new Set(featuredPosts.map(post => post.id));
+  
+  const latestPosts = getPosts()
+    .filter(post => !featuredPostIds.has(post.id))
+    .slice(0, 6);
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
