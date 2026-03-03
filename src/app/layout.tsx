@@ -6,8 +6,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'Inkwell Musings',
-    template: '%s | Inkwell Musings',
+    default: 'Radhesh "Ashen" Everwrite',
+    template: '%s | Radhesh "Ashen" Everwrite',
   },
   description: "An aspiring author's personal blog for projects, thoughts, and stories.",
 };
