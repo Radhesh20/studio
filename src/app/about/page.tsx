@@ -2,10 +2,10 @@ import Image from 'next/image';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import { Github, Linkedin, Instagram } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'About the Author',
+  title: "About the Author | Radhesh \"Ashen\" Everwrite",
 };
 
 export default function AboutPage() {
@@ -20,31 +20,30 @@ export default function AboutPage() {
         <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-center">
             <div className="md:w-1/3">
                 <Image
-                    src="https://picsum.photos/seed/author/400/400"
-                    alt="Portrait of the author"
+                    src="/radhesh-portrait.jpg" 
+                    alt="Portrait of Radhesh Kumar"
                     width={400}
                     height={400}
                     className="rounded-full aspect-square object-cover shadow-lg mx-auto"
-                    data-ai-hint="author portrait"
                 />
             </div>
             <div className="md:w-2/3">
                 <p className="lead">
-                Hello, I'm an aspiring author with a passion for weaving tales, exploring new ideas, and building digital experiences. This blog, Inkwell Musings, is my personal canvas.
+                Hello, I'm <strong>Radhesh Kumar</strong>. I am a Computer Science student and the co-founder of <strong>SCAPLET</strong>. Under the pen name <strong>Ashen Everwrite</strong>, I chronicle the stories that emerge from the intersection of technology and fiction.
                 </p>
                 <div className="mt-6 flex justify-center md:justify-start gap-4">
                     <Button variant="outline" size="icon" asChild>
-                        <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="Github">
+                        <Link href="https://github.com/Radhesh20" target="_blank" rel="noopener noreferrer" aria-label="Github">
                             <Github className="h-5 w-5" />
                         </Link>
                     </Button>
                     <Button variant="outline" size="icon" asChild>
-                        <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                            <Twitter className="h-5 w-5" />
+                        <Link href="https://www.linkedin.com/in/radheshkumarkm" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <Linkedin className="h-5 w-5" />
                         </Link>
                     </Button>
                     <Button variant="outline" size="icon" asChild>
-                        <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                        <Link href="https://www.instagram.com/rxdhssh__" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                             <Linkedin className="h-5 w-5" />
                         </Link>
                     </Button>
@@ -54,14 +53,14 @@ export default function AboutPage() {
         
         <h2>My Journey</h2>
         <p>
-          From a young age, I was captivated by the power of stories. I spent countless hours lost in books, exploring fantasy realms, and pondering the complexities of the human condition. This love for narrative naturally evolved into a desire to create my own worlds and share my own voice.
+          My professional journey is rooted in Computer Science and entrepreneurship. As a co-founder of <strong>SCAPLET</strong>, I focus on delivering high-quality web and app development services, bridging the gap between complex code and user-focused digital marketing solutions.
         </p>
         <p>
-          My professional life has been a blend of technology and creativity. I've worked on various software projects, always drawn to the challenge of solving problems and building useful tools. This blog is where these two worlds collide—a place to document my technical projects, share fictional stories, and post articles on the art of writing itself.
+          Beyond the terminal, I am a storyteller. I have a deep passion for writing novels and developing screenplays for short, story-based indie games. This "Vault" is where these two worlds coexist—a personal archive of my technical builds and my fictional musings as Ashen Everwrite.
         </p>
-        <h2>The Mission of This Blog</h2>
+        <h2>The Mission of This Vault</h2>
         <p>
-          Inkwell Musings serves a few purposes. It is a portfolio of my work, a diary of my thoughts, and an open invitation for connection. Whether you're a fellow writer, a tech enthusiast, or simply a curious reader, I hope you find something here that resonates with you. Thank you for joining me on this journey.
+          <strong>The Rad's Vault</strong> is more than just a portfolio; it's a stockpile of ideas. Whether I'm documenting a new project at SCAPLET or sharing a chapter of a new story, my goal is to provide an open invitation for connection with fellow developers and readers alike. 
         </p>
       </main>
     </div>
