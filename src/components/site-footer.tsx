@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Github, Linkedin, Twitter, Feather } from 'lucide-react';
+import { Github, Linkedin, Instagram, Feather } from 'lucide-react';
 import { Button } from './ui/button';
 
 export function SiteFooter() {
@@ -16,21 +16,21 @@ export function SiteFooter() {
             </span>
           </div>
           <div className="flex gap-4">
-            <Button variant="outline" size="icon" asChild>
-                <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="Github">
-                    <Github className="h-5 w-5" />
-                </Link>
-            </Button>
-            <Button variant="outline" size="icon" asChild>
-                <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                    <Twitter className="h-5 w-5" />
-                </Link>
-            </Button>
-            <Button variant="outline" size="icon" asChild>
-                <Link href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                    <Linkedin className="h-5 w-5" />
-                </Link>
-            </Button>
+                    <Button variant="outline" size="icon" asChild>
+                        <Link href="https://github.com/Radhesh20" target="_blank" rel="noopener noreferrer" aria-label="Github">
+                            <Github className="h-5 w-5" />
+                        </Link>
+                    </Button>
+                    <Button variant="outline" size="icon" asChild>
+                        <Link href="https://www.linkedin.com/in/radheshkumarkm" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                            <Linkedin className="h-5 w-5" />
+                        </Link>
+                    </Button>
+                    <Button variant="outline" size="icon" asChild>
+                        <Link href="https://www.instagram.com/rxdhssh__" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                            <Instagram className="h-5 w-5" />
+                        </Link>
+                    </Button>
           </div>
         </div>
         <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">

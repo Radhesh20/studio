@@ -25,6 +25,7 @@ export default function AboutPage() {
                     width={400}
                     height={400}
                     className="rounded-full aspect-square object-cover shadow-lg mx-auto"
+                    priority
                 />
             </div>
             <div className="md:w-2/3">
@@ -44,7 +45,7 @@ export default function AboutPage() {
                     </Button>
                     <Button variant="outline" size="icon" asChild>
                         <Link href="https://www.instagram.com/rxdhssh__" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <Linkedin className="h-5 w-5" />
+                            <Instagram className="h-5 w-5" />
                         </Link>
                     </Button>
                 </div>
@@ -53,14 +54,13 @@ export default function AboutPage() {
         
         <h2>My Journey</h2>
         <p>
-          My professional journey is rooted in Computer Science and entrepreneurship. As a co-founder of <strong>SCAPLET</strong>, I focus on delivering high-quality web and app development services, bridging the gap between complex code and user-focused digital marketing solutions.
-        </p>
+          I picked up my first pen in the fifth grade. I didn’t do it just to tell a story; I did it to build a sanctuary.</p>
         <p>
-          Beyond the terminal, I am a storyteller. I have a deep passion for writing novels and developing screenplays for short, story-based indie games. This "Vault" is where these two worlds coexist—a personal archive of my technical builds and my fictional musings as Ashen Everwrite.
+          For me, writing has never been a hobby. It is a survival mechanism. The characters I create and the universes I map out are the only places where I retain absolute control. Every other move I make in the real world is purely designed to fund, protect, and eventually unleash this literary universe.           
         </p>
         <h2>The Mission of This Vault</h2>
         <p>
-          <strong>The Rad's Vault</strong> is more than just a portfolio; it's a stockpile of ideas. Whether I'm documenting a new project at SCAPLET or sharing a chapter of a new story, my goal is to provide an open invitation for connection with fellow developers and readers alike. 
+          <strong>This site as I call, The Rad's Vault</strong> is more than just a portfolio; it's a stockpile of ideas. Whether I'm documenting my new project or sharing a chapter of a new story, my goal is to provide an open invitation for connection with fellow developers and readers alike. 
         </p>
       </main>
     </div>
