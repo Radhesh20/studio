@@ -1,8 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch'; // Ensure you have this shadcn component or use a checkbox
-import { Label } from '@/components/ui/label';
 
 const PRESET_TAGS = ['Projects', 'Thoughts', 'Articles', 'Stories'];
 
@@ -15,7 +13,6 @@ export default function VaultPorter() {
   const [selectedTags, setSelectedTags] = useState<string[]>(['Stories']);
   const [manualTag, setManualTag] = useState('');
   const [imageName, setImageName] = useState('');
-  const [isPoemMode, setIsPoemMode] = useState(false);
 
   const toggleTag = (tag: string) => {
     setSelectedTags(prev => 
@@ -29,13 +26,13 @@ export default function VaultPorter() {
         .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
         .replace(/\*(.*?)\*/g, '<i>$1</i>');
 
-      if (isPoemMode) {
+      if (p.includes('\n')) {
         return (
-          <p key={i} className="whitespace-pre-line italic text-center font-serif py-6 leading-loose opacity-90" 
+          <p key={i} className="whitespace-pre-line italic text-center font-serif py-4 leading-loose opacity-80" 
              dangerouslySetInnerHTML={{ __html: formatted.replace(/\n/g, '<br />') }} />
         );
       }
-      return <p key={i} className="mb-4 leading-relaxed" dangerouslySetInnerHTML={{ __html: formatted.replace(/\n/g, ' ') }} />;
+      return <p key={i} className="mb-4" dangerouslySetInnerHTML={{ __html: formatted }} />;
     });
   };
 
@@ -54,10 +51,10 @@ export default function VaultPorter() {
           .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
           .replace(/\*(.*?)\*/g, '<i>$1</i>');
 
-        if (isPoemMode) {
-          return `    <p className="whitespace-pre-line italic text-center font-serif py-6 leading-loose">\n      ${formatted.replace(/\n/g, '<br />')}\n    </p>`;
+        if (p.includes('\n')) {
+          return `    <p className="whitespace-pre-line italic text-center font-serif py-4 leading-loose">\n      ${formatted.replace(/\n/g, '<br />')}\n    </p>`;
         }
-        return `    <p>${formatted.replace(/\n/g, ' ')}</p>`;
+        return `    <p>${formatted}</p>`;
       })
       .join('\n');
 
@@ -81,88 +78,69 @@ ${processedContent}
 
   return (
     <div className="container mx-auto max-w-2xl p-6 font-body pb-32">
-      <header className="mb-10 text-center">
-        <h1 className="text-3xl font-headline font-bold">Vault Porter</h1>
-        <p className="text-muted-foreground text-sm">The digital janitor for your midnight thoughts.</p>
-      </header>
+      <h1 className="text-3xl font-headline font-bold mb-8">Vault Porter</h1>
       
-      <div className="space-y-8">
-        {/* Title Input */}
+      <div className="space-y-6">
         <div>
-          <label className="block mb-2 text-xs uppercase tracking-widest font-bold">Title</label>
+          <label className="block mb-2 text-sm font-bold">Title</label>
           <input 
-            className="w-full p-4 border rounded-lg bg-background border-primary/20 focus:ring-2 ring-primary/10 outline-none"
+            className="w-full p-4 border rounded-lg bg-background border-primary/20"
             onChange={(e) => setTitle(e.target.value)}
-            placeholder="Midnight Musings..."
+            placeholder="Enter title..."
           />
         </div>
 
-        {/* Categories */}
         <div>
-          <label className="block mb-2 text-xs uppercase tracking-widest font-bold">Categories</label>
-          <div className="flex flex-wrap gap-2 mb-3">
+          <label className="block mb-2 text-sm font-bold">Categories</label>
+          <div className="flex flex-wrap gap-2 mb-2">
             {PRESET_TAGS.map(tag => (
               <Button 
                 key={tag}
                 variant={selectedTags.includes(tag) ? 'default' : 'outline'} 
                 onClick={() => toggleTag(tag)}
-                className="rounded-full h-8 text-xs"
+                className="rounded-full"
               >{tag}</Button>
             ))}
           </div>
           <input 
-            placeholder="Custom tag..."
+            placeholder="Add manual tag..."
             className="w-full p-2 border-b bg-transparent outline-none text-sm"
             onChange={(e) => setManualTag(e.target.value)}
           />
         </div>
 
-        {/* Image Filename */}
         <div>
-          <label className="block mb-2 text-xs uppercase tracking-widest font-bold">Image Name</label>
+          <label className="block mb-2 text-sm font-bold">Image Filename (Optional)</label>
           <input 
-            placeholder="e.g. city-lights.jpg"
-            className="w-full p-4 border rounded-lg bg-background border-primary/20 text-sm"
+            placeholder="e.g. blog-hero.jpg"
+            className="w-full p-4 border rounded-lg bg-background border-primary/20"
             onChange={(e) => setImageName(e.target.value)}
           />
         </div>
 
-        {/* Content & Toggle */}
         <div>
-          <div className="flex justify-between items-center mb-2">
-            <label className="text-xs uppercase tracking-widest font-bold">Content</label>
-            <div className="flex items-center space-x-2">
-              <Label htmlFor="poem-mode" className="text-[10px] font-bold uppercase tracking-tighter">Poem Mode</Label>
-              <Switch id="poem-mode" onCheckedChange={(val) => setIsPoemMode(val)} />
-            </div>
-          </div>
+          <label className="block mb-2 text-sm font-bold">Content (**bold**, *italic*, single-enter for poems)</label>
           <textarea 
-            className="w-full h-80 p-4 border rounded-lg bg-background border-primary/20 leading-relaxed font-serif italic text-lg"
-            placeholder="Pour your thoughts here..."
+            className="w-full h-64 p-4 border rounded-lg bg-background border-primary/20 leading-relaxed"
             onChange={(e) => setContent(e.target.value)}
           />
-          <p className="mt-2 text-[10px] text-muted-foreground">Use **bold** for emphasis and *italics* for style. Double enter for new paragraphs.</p>
         </div>
 
-        <Button className="w-full py-8 text-xl font-bold shadow-xl hover:scale-[1.01] transition-transform" onClick={generateCode}>
+        <Button className="w-full py-8 text-xl font-bold shadow-lg" onClick={generateCode}>
           Clean & Copy Object
         </Button>
 
-        {/* --- LIVE PREVIEW --- */}
-        <div className="mt-16 border-t border-primary/10 pt-10">
-          <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-6 text-center">Live Vault Preview</h2>
-          <div className="p-8 border rounded-2xl bg-muted/20 min-h-[300px] prose dark:prose-invert max-w-none shadow-inner">
-            <h1 className="font-headline text-3xl font-bold mb-4">{title || 'A Silent Whisper'}</h1>
-            <div className="flex gap-2 mb-8">
+        {/* --- PREVIEW --- */}
+        <div className="mt-12 border-t pt-8">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">Live Preview</h2>
+          <div className="p-6 border rounded-xl bg-muted/30 min-h-[200px] prose dark:prose-invert max-w-none">
+            <h1 className="font-headline text-2xl font-bold mb-4">{title || 'Your Title'}</h1>
+            <div className="flex gap-2 mb-6">
               {[...selectedTags, manualTag].filter(Boolean).map(t => (
-                <span key={t} className="text-[10px] font-bold uppercase tracking-widest bg-primary/10 text-primary px-3 py-1 rounded-full border border-primary/5">
-                  #{t}
-                </span>
+                <span key={t} className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">#{t}</span>
               ))}
             </div>
-            <div className="border-l-2 border-primary/10 pl-6">
-              {content ? formatContentForPreview(content) : <p className="text-muted-foreground italic">Waiting for the spark...</p>}
-            </div>
+            {content ? formatContentForPreview(content) : <p className="text-muted-foreground italic">Waiting for your thoughts...</p>}
           </div>
         </div>
       </div>
