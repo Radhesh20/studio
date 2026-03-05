@@ -26,7 +26,7 @@ export default function VaultPorter() {
 
   const handleLogin = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    const masterKey = process.env.NEXT_PUBLIC_VAULT_PASS || 'ashen'; 
+    const masterKey = process.env.NEXT_PUBLIC_VAULT_PASS; 
     if (passInput === masterKey) {
       setIsAuthenticated(true);
       sessionStorage.setItem('vault_unlocked', 'true');
