@@ -60,7 +60,7 @@ export default function AboutPage() {
         </p>
         <h2>The Mission of This Vault</h2>
         <p>
-          <strong>This site as I call, The Rad's Vault</strong> is more than just a portfolio; it's a stockpile of ideas. Whether I'm documenting my new project or sharing a chapter of a new story, my goal is to provide an open invitation for connection with fellow developers and readers alike. 
+          This site as I call, <strong>The Rad's Vault</strong> is more than just a portfolio; it's a stockpile of ideas. Whether I'm documenting my new project or sharing a chapter of a new story, my goal is to provide an open invitation for connection with fellow developers and readers alike. 
         </p>
       </main>
     </div>
