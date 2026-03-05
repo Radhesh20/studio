@@ -5,6 +5,9 @@ import { Button } from '@/components/ui/button';
 const PRESET_TAGS = ['Projects', 'Thoughts', 'Articles', 'Stories'];
 
 export default function VaultPorter() {
+  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && !window.location.search.includes('key=ashen')) {
+    return <div className="p-20 text-center">Unauthorized. Move along.</div>;
+  }
   const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
   const [selectedTags, setSelectedTags] = useState<string[]>(['Stories']);
@@ -17,6 +20,23 @@ export default function VaultPorter() {
     );
   };
 
+  // The Preview Logic (Shared with generateCode)
+  const formatContentForPreview = (raw: string) => {
+    return raw.split('\n\n').filter(p => p.trim()).map((p, i) => {
+      let formatted = p.trim()
+        .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+        .replace(/\*(.*?)\*/g, '<i>$1</i>');
+
+      if (p.includes('\n')) {
+        return (
+          <p key={i} className="whitespace-pre-line italic text-center font-serif py-4 leading-loose opacity-80" 
+             dangerouslySetInnerHTML={{ __html: formatted.replace(/\n/g, '<br />') }} />
+        );
+      }
+      return <p key={i} className="mb-4" dangerouslySetInnerHTML={{ __html: formatted }} />;
+    });
+  };
+
   const generateCode = () => {
     const id = Date.now().toString();
     const slug = title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
@@ -24,16 +44,14 @@ export default function VaultPorter() {
     const finalTags = manualTag ? [...selectedTags, manualTag] : selectedTags;
     const finalImage = imageName ? `/${imageName}` : `/${slug}.jpg`;
 
-    // Smarter content processing (The Janitor)
     const processedContent = content
-      .split('\n\n') // Paragraph break
+      .split('\n\n')
       .filter(p => p.trim())
       .map(p => {
         let formatted = p.trim()
           .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
           .replace(/\*(.*?)\*/g, '<i>$1</i>');
 
-        // Poem detection: If the paragraph contains single line breaks
         if (p.includes('\n')) {
           return `    <p className="whitespace-pre-line italic text-center font-serif py-4 leading-loose">\n      ${formatted.replace(/\n/g, '<br />')}\n    </p>`;
         }
@@ -56,56 +74,67 @@ ${processedContent}
 },`;
 
     navigator.clipboard.writeText(code);
-    alert(`Formatted for the Vault! 
-1. Paste into data.ts.
-2. Ensure image is in /public as "${finalImage.replace('/', '')}"`);
+    alert('Vault Code Copied!');
   };
 
   return (
-    <div className="container mx-auto max-w-2xl p-6 font-body pb-20">
+    <div className="container mx-auto max-w-2xl p-6 font-body pb-32">
       <h1 className="text-3xl font-headline font-bold mb-8">Vault Porter</h1>
       
-      <label className="block mb-2 text-sm font-bold">Title</label>
-      <input 
-        placeholder="Midnight Musings..."
-        className="w-full p-4 mb-6 border rounded-lg bg-background border-primary/20"
-        onChange={(e) => setTitle(e.target.value)}
-      />
+      <div className="space-y-6">
+        <div>
+          <label className="block mb-2 text-sm font-bold">Title</label>
+          <input 
+            className="w-full p-4 border rounded-lg bg-background border-primary/20"
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
 
-      <label className="block mb-2 text-sm font-bold">Categories</label>
-      <div className="flex flex-wrap gap-2 mb-4">
-        {PRESET_TAGS.map(tag => (
-          <Button 
-            key={tag}
-            variant={selectedTags.includes(tag) ? 'default' : 'outline'} 
-            onClick={() => toggleTag(tag)}
-            className="rounded-full"
-          >{tag}</Button>
-        ))}
+        <div>
+          <label className="block mb-2 text-sm font-bold">Categories</label>
+          <div className="flex flex-wrap gap-2 mb-2">
+            {PRESET_TAGS.map(tag => (
+              <Button 
+                key={tag}
+                variant={selectedTags.includes(tag) ? 'default' : 'outline'} 
+                onClick={() => toggleTag(tag)}
+                className="rounded-full"
+              >{tag}</Button>
+            ))}
+          </div>
+          <input 
+            placeholder="Add manual tag..."
+            className="w-full p-2 border-b bg-transparent outline-none text-sm"
+            onChange={(e) => setManualTag(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label className="block mb-2 text-sm font-bold">Content (**bold**, *italic*, single-enter for poems)</label>
+          <textarea 
+            className="w-full h-64 p-4 border rounded-lg bg-background border-primary/20 leading-relaxed"
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </div>
+
+        <Button className="w-full py-8 text-xl font-bold shadow-lg" onClick={generateCode}>
+          Clean & Copy Object
+        </Button>
+
+        {/* --- PREVIEW SECTION --- */}
+        <div className="mt-12 border-t pt-8">
+          <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-4">Live Preview</h2>
+          <div className="p-6 border rounded-xl bg-muted/30 min-h-[200px] prose dark:prose-invert max-w-none">
+            <h1 className="font-headline text-2xl font-bold mb-4">{title || 'Your Title'}</h1>
+            <div className="flex gap-2 mb-6">
+              {[...selectedTags, manualTag].filter(Boolean).map(t => (
+                <span key={t} className="text-xs bg-primary/10 text-primary px-2 py-1 rounded">#{t}</span>
+              ))}
+            </div>
+            {content ? formatContentForPreview(content) : <p className="text-muted-foreground italic">Waiting for your thoughts...</p>}
+          </div>
+        </div>
       </div>
-      <input 
-        placeholder="Add manual tag..."
-        className="w-full p-2 mb-6 border-b bg-transparent outline-none"
-        onChange={(e) => setManualTag(e.target.value)}
-      />
-
-      <label className="block mb-2 text-sm font-bold">Image Filename</label>
-      <input 
-        placeholder="e.g. cover.jpg"
-        className="w-full p-4 mb-6 border rounded-lg bg-background border-primary/20"
-        onChange={(e) => setImageName(e.target.value)}
-      />
-
-      <label className="block mb-2 text-sm font-bold">Content (**bold**, *italic*, single-enter for poems)</label>
-      <textarea 
-        placeholder="Write your heart out..."
-        className="w-full h-80 p-4 mb-6 border rounded-lg bg-background border-primary/20 leading-relaxed"
-        onChange={(e) => setContent(e.target.value)}
-      />
-
-      <Button className="w-full py-8 text-xl font-bold shadow-lg" onClick={generateCode}>
-        Clean & Copy Object
-      </Button>
     </div>
   );
 }
