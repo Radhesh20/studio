@@ -96,7 +96,7 @@ ${contentBlock}
       <div className="space-y-8 print:hidden">
         <div>
           <label className="block mb-2 text-xs uppercase tracking-widest font-bold text-primary/60">Title</label>
-          <input className="w-full p-4 border rounded-lg bg-background border-primary/20 outline-none focus:border-primary transition-colors" placeholder="Midnight Title..." onChange={(e) => setTitle(e.target.value)} />
+          <input className="w-full p-4 border rounded-lg bg-background border-primary/20 outline-none focus:border-primary transition-colors" placeholder="Your Title..." onChange={(e) => setTitle(e.target.value)} />
         </div>
         
         <div>
@@ -137,7 +137,7 @@ ${contentBlock}
       <div className="mt-16 print:mt-0">
         <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-6 text-center print:hidden underline underline-offset-8 decoration-primary/20">Live Vault Preview</h2>
         <div className="p-12 border rounded-2xl bg-white text-black dark:bg-zinc-950 dark:text-white min-h-[500px] shadow-sm print:border-none print:shadow-none print:p-0">
-          <h1 className="font-headline text-4xl font-bold mb-4">{title || 'A Fragment of Time'}</h1>
+          <h1 className="font-headline text-4xl font-bold mb-4">{title || 'Your Title'}</h1>
           <p className="text-xs uppercase tracking-widest text-primary mb-8">{new Date().toLocaleDateString('en-GB')}</p>
           <div className={`mb-12 ${isPoemMode ? 'text-center italic font-serif py-10 leading-loose' : 'leading-relaxed'}`}>
             <p className="whitespace-pre-line text-lg" dangerouslySetInnerHTML={{ __html: processFormatting(content).replace(/\n/g, '<br />') }} />
