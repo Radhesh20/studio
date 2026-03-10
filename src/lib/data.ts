@@ -1,37 +1,19 @@
 import type { Post, Tag } from './types';
 
 export const posts: Post[] = [
-  {
-    id: '1',
-    slug: 'the-genesis-of-project-aurora',
-    title: 'The Genesis of Project Aurora',
-    date: '2024-07-15',
-    tags: ['Projects'],
-    featured: true,
-    image: 'https://picsum.photos/seed/103/600/400',
-    imageDescription: 'A blueprint of a complex project on a wooden table.',
-    imageHint: 'project blueprint',
-    content: `
-<p>Every great project begins with a single spark of an idea. For me, Project Aurora was that spark. It started not in a boardroom, but on a quiet afternoon, staring at a blank page. The question was simple: how can technology tell a story in a way that feels both ancient and entirely new?</p>
-<p>This post chronicles the early days of Project Aurora, from the initial concept sketches to the first lines of code. It’s a journey of trial and error, of late-night epiphanies and frustrating roadblocks. I'll delve into the core technologies we chose and, more importantly, *why* we chose them. This isn't just a technical diary; it's a story about building something from nothing and the passion that fuels creation.</p>
-<p>Join me as I pull back the curtain on the creative and technical process behind my most ambitious project to date.</p>
-    `,
-  },
-  {
-    id: '2',
-    slug: 'reflections-on-solitude',
-    title: 'Reflections on Solitude',
-    date: '2024-06-28',
-    tags: ['Thoughts'],
-    featured: true,
-    image: 'https://picsum.photos/seed/105/600/400',
-    imageDescription: 'A person looking thoughtfully out of a window.',
-    imageHint: 'thoughtful person',
-    content: `
-<p>In our hyper-connected world, solitude is often mistaken for loneliness. But in the quiet moments, away from the digital noise, I've found a space for profound reflection and creativity. This isn't a call to disconnect entirely, but an exploration of the power that can be found in being alone with your thoughts.</p>
-<p>I share my personal experiences with carving out moments of solitude and how it has impacted my writing and my perspective on life. From silent walks in nature to simply sitting with a cup of tea and a notebook, these practices have become essential to my well-being. This article is an invitation to find your own quiet corner and discover what awaits you there.</p>
-    `,
-  },
+{
+  id: '1773118231062',
+  slug: 'grateful',
+  title: 'Grateful',
+  date: '2026-03-10',
+  tags: ["Thoughts"],
+  featured: false,
+  image: '/grateful.jpg',
+  imageDescription: 'Grateful',
+  content: `
+    <p className="whitespace-pre-line italic text-center font-serif py-6 leading-loose">\n      You said you were grateful for my existence,<br />A statement from a soul I’d met not long ago.<br />You were the only one who ever thanked me,<br />Just for being there, for reasons I didn't know.<br /><br />I couldn't tell you what I did or uttered,<br />I only listened, shared my own view.<br />I was the same as I had been to others,<br />A repeating character, making little to no sense.<br />No one had ever thanked me for being kind,<br />But you did. You said those words I’d never heard.<br />And in that moment, in my lonely existence,<br />I swore I never wished for anything more.<br /><br />For after they were done, they always left me,<br />When I was of no further use to them.<br />The ones I thought my world of, they bereft me,<br />And treated me like any other gem<br />That lost its shine. I told myself my ways were wrong,<br />To be so patient, to be so considerate.<br />It was the only way I knew to be strong,<br />To never lash out, to be deliberate.<br /><br />Because of this, I lost what I held dear,<br />In ways that no one else could understand.<br />I was hurt so deeply, governed by my fear,<br />With wounds that were not made by any hand.<br />I learned to wear a mask to hide myself,<br />To bury deep the nature I once knew.<br />I was told to put my true heart on a shelf,<br />And never, ever let it see me through.<br /><br />Then you, among the ones who looked away,<br />Said something that would shatter my defense.<br />You told me I deserved a brighter day,<br />And all the happiness that this world could give,<br />And that you would kill to have me as your best friend.<br /><br />My eyes failed me. A single tear broke free.<br />You were grateful for my existence?<br />You wouldn't know what yours had done for me,<br />With just a few words of persistence.<br />That day you first replied, you changed my view,<br />You have no idea of the light you cast.<br /><br />I am the one who is grateful I met you.<br />I was, I am, and I will be, to the last.\n    </p>
+  `,
+},
 ];
 
 export function getPosts(): Post[] {
