@@ -1,151 +1,161 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
-import { Switch } from '@/components/ui/switch'; 
-import { Label } from '@/components/ui/label';
-import { FileText, Copy, Lock } from 'lucide-react';
+import { Switch } from '@/components/ui/switch';
+import html2pdf from 'html2pdf.js'; // You'll need: npm install html2pdf.js
 
 const PRESET_TAGS = ['Projects', 'Thoughts', 'Articles', 'Stories'];
 
 export default function VaultPorter() {
-  const [content, setContent] = useState('');
-  const [title, setTitle] = useState('');
-  const [selectedTags, setSelectedTags] = useState<string[]>(['Stories']);
-  const [manualTag, setManualTag] = useState('');
-  const [imageName, setImageName] = useState('');
-  const [isPoemMode, setIsPoemMode] = useState(false);
-  
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [passInput, setPassInput] = useState('');
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [imageName, setImageName] = useState('');
+  const [selectedTags, setSelectedTags] = useState<string[]>(['Thoughts']);
+  const [manualTag, setManualTag] = useState('');
+  const [isPoem, setIsPoem] = useState(false);
+  
+  const previewRef = useRef(null);
 
-  useEffect(() => {
-    if (sessionStorage.getItem('vault_unlocked') === 'true') {
-      setIsAuthenticated(true);
-    }
-  }, []);
-
+  // 1. Security: Simple Password
   const handleLogin = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     const masterKey = process.env.NEXT_PUBLIC_VAULT_PASS; 
     if (passInput === masterKey) {
       setIsAuthenticated(true);
-      sessionStorage.setItem('vault_unlocked', 'true');
     } else {
       alert("The Vault remains sealed.");
     }
   };
 
-  const isLocal = typeof window !== 'undefined' && window.location.hostname === 'localhost';
-  if (!isAuthenticated && !isLocal) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen p-6 bg-background font-body">
-        <div className="w-full max-w-sm p-8 border rounded-2xl shadow-xl bg-card border-primary/10">
-          <div className="flex justify-center mb-6"><div className="p-4 rounded-full bg-primary/5 text-primary"><Lock className="h-8 w-8" /></div></div>
-          <h1 className="text-2xl font-headline font-bold text-center mb-2">The Vault is Sealed</h1>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <input type="password" placeholder="Enter password..." autoFocus className="w-full p-4 border rounded-lg bg-background border-primary/20 outline-none text-center" onChange={(e) => setPassInput(e.target.value)} />
-            <Button type="submit" className="w-full py-6 font-bold uppercase tracking-widest">Unlock</Button>
-          </form>
-        </div>
-      </div>
-    );
-  }
+  // 2. Content Processor
+  const processContent = (text: string) => {
+    let formatted = text.trim()
+      .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+      .replace(/\*(.*?)\*/g, '<i>$1</i>');
 
-  const processFormatting = (text: string) => {
-    return text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\*(.*?)\*/g, '<i>$1</i>');
+    if (isPoem) {
+      return `<p className="whitespace-pre-line italic text-center font-serif py-6 leading-loose">\n  ${formatted.replace(/\n/g, '<br />')}\n</p>`;
+    }
+    return formatted.split('\n').filter(p => p.trim()).map(p => `<p>${p.trim()}</p>`).join('\n');
   };
 
   const generateCode = () => {
-    const id = Date.now().toString();
     const slug = title.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
-    const formattedContent = processFormatting(content).replace(/\n/g, '<br />');
-    const contentBlock = isPoemMode 
-      ? `    <p className="whitespace-pre-line italic text-center font-serif py-6 leading-loose">\\n      ${formattedContent}\\n    </p>`
-      : `    <p className="whitespace-pre-line">\\n      ${formattedContent}\\n    </p>`;
+    const finalImage = imageName ? `/${imageName}` : `/${slug}.jpg`;
+    const finalTags = manualTag ? [...selectedTags, manualTag] : selectedTags;
 
     const code = `{
-  id: '${id}',
+  id: '${Date.now()}',
   slug: '${slug}',
   title: '${title}',
-  date: '${new Date().toISOString().split('T')[0]}',
-  tags: ${JSON.stringify([...selectedTags, manualTag].filter(Boolean))},
+  date: '${new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}',
+  tags: ${JSON.stringify(finalTags)},
   featured: false,
-  image: '${imageName ? `/${imageName}` : `/${slug}.jpg`}',
+  image: '${finalImage}',
   imageDescription: '${title}',
   content: \`
-${contentBlock}
+${processContent(content)}
   \`,
 },`;
 
     navigator.clipboard.writeText(code);
-    alert("Vault Object Copied!");
+    alert('Code copied for data.ts!');
   };
 
+  // 3. PDF Export
+  const downloadPDF = () => {
+    const element = previewRef.current;
+    const opt = {
+      margin: 1,
+      filename: `${title || 'midnight-thought'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+    html2pdf().from(element).set(opt).save();
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-6">
+        <form onSubmit={handleLogin} className="space-y-4">
+          <input 
+            type="password" 
+            placeholder="Enter Master Key"
+            className="p-3 border rounded-lg bg-background"
+            onChange={(e) => setPassInput(e.target.value)}
+          />
+          <Button type="submit" className="w-full">Unlock Vault</Button>
+        </form>
+      </div>
+    );
+  }
+
   return (
-    <div className="container mx-auto max-w-2xl p-6 font-body pb-32 print:p-0">
-      <header className="mb-10 flex justify-between items-end border-b border-primary/10 pb-6 print:hidden">
-        <div>
-          <h1 className="text-3xl font-headline font-bold">Vault Porter</h1>
-          <p className="text-muted-foreground text-xs uppercase tracking-widest mt-1 italic">Logged in as Ashen</p>
-        </div>
-        <Button variant="outline" size="sm" onClick={() => window.print()} className="gap-2 border-primary/20 shadow-sm">
-          <FileText className="h-4 w-4" /> Archive PDF
-        </Button>
-      </header>
-      
-      <div className="space-y-8 print:hidden">
-        <div>
-          <label className="block mb-2 text-xs uppercase tracking-widest font-bold text-primary/60">Title</label>
-          <input className="w-full p-4 border rounded-lg bg-background border-primary/20 outline-none focus:border-primary transition-colors" placeholder="Your Title..." onChange={(e) => setTitle(e.target.value)} />
-        </div>
-        
-        <div>
-          <label className="block mb-2 text-xs uppercase tracking-widest font-bold text-primary/60">Categories</label>
-          <div className="flex flex-wrap gap-2 mb-3">
-            {PRESET_TAGS.map(tag => (
-              <Button key={tag} variant={selectedTags.includes(tag) ? 'default' : 'outline'} onClick={() => setSelectedTags(prev => prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag])} className="rounded-full h-8 text-xs">{tag}</Button>
-            ))}
-          </div>
-          <input placeholder="Add a custom tag..." className="w-full p-2 border-b bg-transparent outline-none text-sm border-primary/10 focus:border-primary" onChange={(e) => setManualTag(e.target.value)} />
-        </div>
-
-        <div>
-          <label className="block mb-2 text-xs uppercase tracking-widest font-bold text-primary/60">Image Filename (Optional)</label>
-          <input className="w-full p-4 border rounded-lg bg-background border-primary/20 outline-none focus:border-primary text-sm" placeholder="e.g. cover-art.jpg (points to /public)" onChange={(e) => setImageName(e.target.value)} />
-        </div>
-
-        <div>
-          <div className="flex justify-between items-center mb-2">
-            <label className="text-xs uppercase tracking-widest font-bold text-primary/60">Content</label>
-            <div className="flex items-center space-x-3 bg-primary/5 px-3 py-1 rounded-full border border-primary/10">
-              <Label htmlFor="poem-mode" className="text-[10px] font-bold uppercase tracking-widest">Poem Mode Styling</Label>
-              <Switch id="poem-mode" onCheckedChange={(val) => setIsPoemMode(val)} />
-            </div>
-          </div>
-          <textarea className="w-full h-80 p-4 border rounded-lg bg-background border-primary/20 leading-relaxed outline-none focus:border-primary transition-colors" placeholder="One enter for a new line..." onChange={(e) => setContent(e.target.value)} />
-          {/* RESTORED FORMATTING NOTES */}
-          <p className="mt-2 text-[10px] text-muted-foreground uppercase tracking-tight">
-            Use **<b>bold</b>**, *<i>italic</i>*, and single-enter for new lines.
-          </p>
-        </div>
-
-        <Button className="w-full py-8 text-xl font-bold shadow-xl gap-2 bg-primary text-primary-white" onClick={generateCode}>
-          <Copy className="h-6 w-6" /> Copy for data.ts
-        </Button>
+    <div className="container mx-auto max-w-2xl p-6 font-body pb-20">
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-headline font-bold">Vault Porter</h1>
+        <Button variant="outline" onClick={downloadPDF}>Archive PDF</Button>
       </div>
 
-      <div className="mt-16 print:mt-0">
-        <h2 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground mb-6 text-center print:hidden underline underline-offset-8 decoration-primary/20">Live Vault Preview</h2>
-        <div className="p-12 border rounded-2xl bg-white text-black dark:bg-zinc-950 dark:text-white min-h-[500px] shadow-sm print:border-none print:shadow-none print:p-0">
-          <h1 className="font-headline text-4xl font-bold mb-4">{title || 'Your Title'}</h1>
-          <p className="text-xs uppercase tracking-widest text-primary mb-8">{new Date().toLocaleDateString('en-GB')}</p>
-          <div className={`mb-12 ${isPoemMode ? 'text-center italic font-serif py-10 leading-loose' : 'leading-relaxed'}`}>
-            <p className="whitespace-pre-line text-lg" dangerouslySetInnerHTML={{ __html: processFormatting(content).replace(/\n/g, '<br />') }} />
-          </div>
-          <div className="mt-20 pt-8 border-t border-primary/10 text-center">
-             <p className="font-headline text-sm font-bold tracking-widest opacity-40 uppercase">Radhesh "Ashen" Everwrite</p>
-             <p className="text-[10px] uppercase tracking-tighter opacity-30 mt-1 italic">Retrieved from the Vault</p>
-          </div>
+      <input 
+        placeholder="Your Title..."
+        className="w-full p-4 mb-4 border rounded-lg bg-background"
+        onChange={(e) => setTitle(e.target.value)}
+      />
+
+      <div className="flex gap-2 mb-4">
+        {PRESET_TAGS.map(tag => (
+          <Button 
+            key={tag}
+            variant={selectedTags.includes(tag) ? 'default' : 'outline'} 
+            onClick={() => setSelectedTags([tag])}
+            className="rounded-full"
+          >{tag}</Button>
+        ))}
+      </div>
+
+      <div className="flex items-center justify-between p-4 border rounded-lg mb-4 bg-muted/20">
+        <span className="text-sm font-bold uppercase tracking-wider">Poem Mode Styling</span>
+        <Switch checked={isPoem} onCheckedChange={setIsPoem} />
+      </div>
+
+      <input 
+        placeholder="Image Filename (e.g., cover.png)"
+        className="w-full p-4 mb-4 border rounded-lg bg-background"
+        onChange={(e) => setImageName(e.target.value)}
+      />
+
+      <textarea 
+        placeholder="Pour your thoughts..."
+        className="w-full h-64 p-4 mb-6 border rounded-lg bg-background"
+        onChange={(e) => setContent(e.target.value)}
+      />
+
+      <Button className="w-full py-8 text-xl font-bold mb-10" onClick={generateCode}>
+        Copy for data.ts
+      </Button>
+
+      {/* LIVE PREVIEW AREA */}
+      <div className="border-t pt-10">
+        <h2 className="text-sm font-bold opacity-50 mb-4 uppercase">Live Preview</h2>
+        <div 
+          ref={previewRef}
+          className="p-8 border rounded-xl bg-card shadow-sm min-h-[400px]"
+        >
+          <h1 className="text-4xl font-headline font-bold mb-2">{title || "Title"}</h1>
+          <p className="text-sm opacity-60 mb-8">{new Date().toDateString()}</p>
+          
+          <div 
+            className="prose dark:prose-invert max-w-none"
+            dangerouslySetInnerHTML={{ __html: processContent(content) }} 
+          />
+          
+          <footer className="mt-20 pt-4 border-t text-xs opacity-40 text-center italic">
+            Captured by Radhesh Kumar — Ashen Everwrite
+          </footer>
         </div>
       </div>
     </div>
