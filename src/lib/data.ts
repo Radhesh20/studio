@@ -2,16 +2,16 @@ import type { Post, Tag } from './types';
 
 export const posts: Post[] = [
 {
-  id: '1741598400000', 
+  id: '1741604881',
   slug: 'grateful-for-existence',
   title: 'Grateful',
   date: 'March 10, 2026',
   tags: ['Thoughts'],
   featured: true,
   image: '/grateful.jpg', 
-  imageDescription: 'A reflection on being seen',
+  imageDescription: 'Grateful for existence',
   content: `
-    <p className="whitespace-pre-line italic text-center font-serif py-6 leading-loose">
+    <div class="text-center italic font-serif py-10 leading-relaxed max-w-2xl mx-auto">
       You said you were grateful for my existence,<br />
       A statement from a soul I’d met not long ago.<br />
       You were the only one who ever thanked me,<br />
@@ -59,9 +59,9 @@ export const posts: Post[] = [
 
       I am the one who is grateful I met you.<br />
       I was, I am, and I will be, to the last.
-    </p>
-    <footer className="mt-12 pt-4 border-t border-primary/10 text-xs opacity-30 text-center italic">
-      Ashen Everwrite
+    </div>
+    <footer class="mt-16 pt-4 border-t border-primary/10 text-xs opacity-30 text-center italic font-body">
+      — Ashen Everwrite
     </footer>
   `,
 },
