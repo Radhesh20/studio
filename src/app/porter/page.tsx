@@ -2,7 +2,6 @@
 import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import html2pdf from 'html2pdf.js'; // You'll need: npm install html2pdf.js
 
 const PRESET_TAGS = ['Projects', 'Thoughts', 'Articles', 'Stories'];
 
@@ -64,18 +63,7 @@ ${processContent(content)}
     alert('Code copied for data.ts!');
   };
 
-  // 3. PDF Export
-  const downloadPDF = () => {
-    const element = previewRef.current;
-    const opt = {
-      margin: 1,
-      filename: `${title || 'midnight-thought'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-    };
-    html2pdf().from(element).set(opt).save();
-  };
+
 
   if (!isAuthenticated) {
     return (
@@ -97,7 +85,6 @@ ${processContent(content)}
     <div className="container mx-auto max-w-2xl p-6 font-body pb-20">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-headline font-bold">Vault Porter</h1>
-        <Button variant="outline" onClick={downloadPDF}>Archive PDF</Button>
       </div>
 
       <input 
